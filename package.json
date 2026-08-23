@@ -1,8 +1,10 @@
 {
 	"name": "sprint-point-days",
 	"version": "0.1.0",
-  "author": {"name": "SNSCastillo"},
-  "description": "Calculo de dias para puntos de sprint.",
+	"author": {
+		"name": "SNSCastillo"
+	},
+	"description": "Calculo de dias para puntos de sprint.",
 	"private": true,
 	"scripts": {
 		"dev": "next dev",

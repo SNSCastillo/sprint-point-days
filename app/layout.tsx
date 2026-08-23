@@ -15,8 +15,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
 	title: "Sprint Planner | Puntos y dias",
 	description: "Calcula dias de sprint a partir de puntos de historia.",
-  icons: "/MaterialSymbolsSpeed.svg"
-  
+	icons: "/MaterialSymbolsSpeed.svg",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
