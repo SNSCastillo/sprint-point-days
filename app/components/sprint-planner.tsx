@@ -1,47 +1,28 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { AppHeader, PageFooter, PageIntro } from "@/app/components/app-layout";
 import { EquivalencePanel } from "@/app/components/equivalence-panel";
-import { FruitList } from "@/app/components/fruit-list";
 import { ResultsModal } from "@/app/components/results-modal";
 import { SprintPointsPanel } from "@/app/components/sprint-points-panel";
-import { isApiError } from "@/app/lib/api/fetch";
-import { getListFruits } from "@/app/lib/api/fruits/endpoints";
-import type { Fruit } from "@/app/lib/api/fruits/types";
 import {
 	calculateSprint,
 	initialEquivalences,
 	initialSprintPoints,
+	type Point,
 	type PointEquivalence,
 	type SprintResult,
 } from "@/app/lib/mock-data";
+import pkg from "./../../package.json";
 
 export default function SprintPlanner() {
 	const [equivalences, setEquivalences] =
 		useState<PointEquivalence[]>(initialEquivalences);
 	const [sprintPoints, setSprintPoints] =
-		useState<number[]>(initialSprintPoints);
+		useState<Point[]>(initialSprintPoints);
 	const [newPoint, setNewPoint] = useState("");
 	const [notice, setNotice] = useState("");
 	const [results, setResults] = useState<SprintResult[] | null>(null);
-	const [fruits, setFruits] = useState<Fruit[]>([]);
-	const [error, setError] = useState<string | null>(null);
-
-	useEffect(() => {
-		async function loadFruits() {
-			try {
-				setFruits(await getListFruits());
-			} catch (err) {
-				if (isApiError(err))
-					setError(
-						`Error del servidor (${err.response.status}): ${err.message}`,
-					);
-				else setError("Error de conexión a internet");
-			}
-		}
-		loadFruits();
-	}, []);
 
 	const updateEquivalence = (
 		id: string,
@@ -57,11 +38,18 @@ export default function SprintPlanner() {
 	};
 
 	const addPoint = () => {
-		const parsedPoint = Number(newPoint);
+		const insertPoint = {
+			id: crypto.randomUUID(),
+			value: Number(newPoint),
+		};
 		const isKnownPoint = equivalences.some(
-			(equivalence) => equivalence.points === parsedPoint,
+			(equivalence) => equivalence.points === insertPoint.value,
 		);
-		if (!newPoint.trim() || !Number.isFinite(parsedPoint) || parsedPoint <= 0) {
+		if (
+			!newPoint.trim() ||
+			!Number.isFinite(insertPoint.value) ||
+			insertPoint.value <= 0
+		) {
 			setNotice("Escribe un numero de puntos mayor que cero.");
 			return;
 		}
@@ -71,7 +59,7 @@ export default function SprintPlanner() {
 			);
 			return;
 		}
-		setSprintPoints((current) => [...current, parsedPoint]);
+		setSprintPoints((current) => [...current, insertPoint]);
 		setNewPoint("");
 		setNotice("");
 	};
@@ -87,7 +75,7 @@ export default function SprintPlanner() {
 
 	return (
 		<>
-			<AppHeader />
+			<AppHeader version={`v${pkg.version}`} />
 			<PageIntro itemCount={sprintPoints.length} />
 			<div className="workspace-grid">
 				<EquivalencePanel
@@ -99,17 +87,15 @@ export default function SprintPlanner() {
 					newPoint={newPoint}
 					onNewPointChange={setNewPoint}
 					onAdd={addPoint}
-					onRemove={(index) =>
-						setSprintPoints((current) =>
-							current.filter((_, itemIndex) => itemIndex !== index),
-						)
+					onRemove={(id) =>
+						setSprintPoints((current) => current.filter((a) => id !== a.id))
 					}
 					onCalculate={handleCalculate}
 					notice={notice}
 				/>
 			</div>
 			<PageFooter>
-				<FruitList fruits={fruits} error={error} />
+				{/* <FruitList fruits={fruits} error={error} /> */}
 			</PageFooter>
 			{results && (
 				<ResultsModal

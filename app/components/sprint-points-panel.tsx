@@ -1,12 +1,13 @@
 import { FiAlertCircle, FiArrowUpRight, FiPlus } from "react-icons/fi";
 import { Badge, Button, IconButton, PanelHeader } from "@/app/components/ui";
+import type { Point } from "../lib/mock-data";
 
 type SprintPointsPanelProps = {
-	points: number[];
+	points: Point[];
 	newPoint: string;
 	onNewPointChange: (value: string) => void;
 	onAdd: () => void;
-	onRemove: (index: number) => void;
+	onRemove: (id: string) => void;
 	onCalculate: () => void;
 	notice: string;
 };
@@ -23,7 +24,6 @@ export function SprintPointsPanel({
 	return (
 		<section className="panel sprint-panel">
 			<PanelHeader
-				label="B"
 				title="Puntos del sprint"
 				description="La lista que vas a estimar."
 			>
@@ -50,12 +50,12 @@ export function SprintPointsPanel({
 				</Button>
 			</div>
 			<div className="chips" aria-live="polite">
-				{points.map((point, index) => (
-					<div className="point-chip" key={point}>
-						<span>{point}</span>
+				{points.map((point) => (
+					<div className="point-chip" key={point.id}>
+						<span>{point.value}</span>
 						<IconButton
-							label={`Eliminar ${point} puntos`}
-							onClick={() => onRemove(index)}
+							label={`Eliminar ${point.value} puntos`}
+							onClick={() => onRemove(point.id)}
 						/>
 					</div>
 				))}

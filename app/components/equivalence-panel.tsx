@@ -14,7 +14,6 @@ export function EquivalencePanel({
 	return (
 		<section className="panel equivalence-panel">
 			<PanelHeader
-				label="A"
 				title="Escala de equivalencias"
 				description="Tu referencia para estimar esfuerzo."
 			>
