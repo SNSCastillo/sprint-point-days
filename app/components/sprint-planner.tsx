@@ -20,7 +20,6 @@ export default function SprintPlanner() {
 		useState<PointEquivalence[]>(initialEquivalences);
 	const [sprintPoints, setSprintPoints] =
 		useState<Point[]>(initialSprintPoints);
-	const [newPoint, setNewPoint] = useState("");
 	const [notice, setNotice] = useState("");
 	const [results, setResults] = useState<SprintResult[] | null>(null);
 
@@ -37,30 +36,12 @@ export default function SprintPlanner() {
 		);
 	};
 
-	const addPoint = () => {
-		const insertPoint = {
+	const addPoint = (value: number) => {
+		const insertPoint: Point = {
 			id: crypto.randomUUID(),
-			value: Number(newPoint),
+			value,
 		};
-		const isKnownPoint = equivalences.some(
-			(equivalence) => equivalence.points === insertPoint.value,
-		);
-		if (
-			!newPoint.trim() ||
-			!Number.isFinite(insertPoint.value) ||
-			insertPoint.value <= 0
-		) {
-			setNotice("Escribe un numero de puntos mayor que cero.");
-			return;
-		}
-		if (!isKnownPoint) {
-			setNotice(
-				"Ese punto no tiene equivalencia. Usa uno de los valores de la escala.",
-			);
-			return;
-		}
 		setSprintPoints((current) => [...current, insertPoint]);
-		setNewPoint("");
 		setNotice("");
 	};
 
@@ -84,8 +65,7 @@ export default function SprintPlanner() {
 				/>
 				<SprintPointsPanel
 					points={sprintPoints}
-					newPoint={newPoint}
-					onNewPointChange={setNewPoint}
+					equivalences={equivalences}
 					onAdd={addPoint}
 					onRemove={(id) =>
 						setSprintPoints((current) => current.filter((a) => id !== a.id))

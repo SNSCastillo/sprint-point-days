@@ -306,24 +306,43 @@ h1 {
 	letter-spacing: 0.15em;
 }
 
-.point-input-row {
+.point-options {
 	display: flex;
+	flex-wrap: wrap;
 	gap: 10px;
+	margin: 0;
+	padding: 0;
+	border: 0;
 }
 
-.point-input-row input {
-	min-width: 0;
-	flex: 1;
+.point-option {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 7px;
 	height: 46px;
-	padding: 0 15px;
-	border: 1px solid var(--color-line);
+	min-width: 72px;
+	padding: 0 16px;
 	background: #f8f7f1;
+	border: 1px solid var(--color-ink);
 	color: var(--color-ink);
-	outline: none;
+	cursor: pointer;
+	font-size: 15px;
+	font-weight: 700;
+	transition:
+		transform 0.2s,
+		background 0.2s;
 }
 
-.point-input-row input:focus {
-	border-color: var(--color-ink);
+.point-option svg {
+	color: var(--color-coral);
+	font-size: 16px;
+}
+
+.point-option:hover,
+.point-option:focus-visible {
+	background: var(--color-accent);
+	transform: translateY(-2px);
 }
 
 .button {
@@ -465,9 +484,13 @@ h1 {
 .result-modal {
 	position: relative;
 	width: min(500px, 100%);
+	max-height: calc(100dvh - 40px);
 	padding: 42px;
 	background: var(--color-paper);
 	box-shadow: 0 24px 70px #10181340;
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
 }
 
 .modal-close {
@@ -497,6 +520,8 @@ h1 {
 }
 
 .result-list {
+	min-height: 0;
+	overflow-y: auto;
 	margin: 25px 0;
 	border-top: 1px solid var(--color-line);
 }
@@ -600,15 +625,17 @@ h1 {
 		width: 59px;
 	}
 
-	.point-input-row {
+	.result-modal {
+		max-height: calc(100dvh - 24px);
+		padding: 32px 24px;
+	}
+
+	.modal-actions {
 		flex-direction: column;
 	}
 
-	.button-secondary {
+	.modal-actions .button,
+	.modal-actions .button-primary {
 		width: 100%;
-	}
-
-	.result-modal {
-		padding: 32px 24px;
 	}
 }

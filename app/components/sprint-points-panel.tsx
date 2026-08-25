@@ -1,12 +1,11 @@
 import { FiAlertCircle, FiArrowUpRight, FiPlus } from "react-icons/fi";
 import { Badge, Button, IconButton, PanelHeader } from "@/app/components/ui";
-import type { Point } from "../lib/mock-data";
+import type { Point, PointEquivalence } from "../lib/mock-data";
 
 type SprintPointsPanelProps = {
 	points: Point[];
-	newPoint: string;
-	onNewPointChange: (value: string) => void;
-	onAdd: () => void;
+	equivalences: PointEquivalence[];
+	onAdd: (value: number) => void;
 	onRemove: (id: string) => void;
 	onCalculate: () => void;
 	notice: string;
@@ -14,8 +13,7 @@ type SprintPointsPanelProps = {
 
 export function SprintPointsPanel({
 	points,
-	newPoint,
-	onNewPointChange,
+	equivalences,
 	onAdd,
 	onRemove,
 	onCalculate,
@@ -31,24 +29,20 @@ export function SprintPointsPanel({
 					{points.length} {points.length === 1 ? "item" : "items"}
 				</Badge>
 			</PanelHeader>
-			<label className="field-label" htmlFor="new-point">
-				INGRESA TUS PUNTOS
-			</label>
-			<div className="point-input-row">
-				<input
-					id="new-point"
-					type="number"
-					min="0.1"
-					step="0.1"
-					placeholder="Ej. 8"
-					value={newPoint}
-					onChange={(event) => onNewPointChange(event.target.value)}
-					onKeyDown={(event) => event.key === "Enter" && onAdd()}
-				/>
-				<Button variant="secondary" type="button" onClick={onAdd}>
-					<FiPlus aria-hidden="true" /> Insertar
-				</Button>
-			</div>
+			<fieldset className="point-options" aria-label="Puntos disponibles">
+				<legend className="field-label">SELECCIONA Y AGREGA LOS PUNTOS</legend>
+				{equivalences.map((equivalence) => (
+					<button
+						className="point-option"
+						key={equivalence.id}
+						type="button"
+						onClick={() => onAdd(equivalence.points)}
+					>
+						<FiPlus aria-hidden="true" />
+						<span>{equivalence.points}</span>
+					</button>
+				))}
+			</fieldset>
 			<div className="chips" aria-live="polite">
 				{points.map((point) => (
 					<div className="point-chip" key={point.id}>
