@@ -12,6 +12,9 @@ type ResultsModalProps = {
 
 export function ResultsModal({ results, onClose, onReset }: ResultsModalProps) {
 	const totalDays = results.reduce((total, result) => total + result.days, 0);
+	const totalPoints = results.reduce((acc, valor) => {
+		return acc + valor.points;
+	}, 0);
 	return (
 		<dialog
 			className="modal-backdrop"
@@ -41,13 +44,18 @@ export function ResultsModal({ results, onClose, onReset }: ResultsModalProps) {
 				</p>
 				<div className="result-list">
 					{results.map((result) => (
-						<div className="result-row" key={`${result.points}-${result.days}`}>
+						<div className="result-row" key={`${result.id}-${result.days}`}>
 							<span>
 								<b>{result.points}</b> puntos
 							</span>
 							<strong>{numberFormatter.format(result.days)} dias</strong>
 						</div>
 					))}
+					<div className="result-row total">
+						<span>
+							<b>Total: {totalPoints}</b> puntos
+						</span>
+					</div>
 				</div>
 				<div className="modal-actions">
 					<Button onClick={onClose}>Seguir editando</Button>

@@ -35,14 +35,12 @@ export function Badge({ children, variant = "default" }: BadgeProps) {
 }
 
 type PanelHeaderProps = {
-	label: string;
 	title: string;
 	description: string;
 	children?: ReactNode;
 };
 
 export function PanelHeader({
-	label,
 	title,
 	description,
 	children,
@@ -50,7 +48,6 @@ export function PanelHeader({
 	return (
 		<div className="panel-heading">
 			<div className="panel-heading-content">
-				<span className="section-number">{label}</span>
 				<div>
 					<h2>{title}</h2>
 					<p>{description}</p>

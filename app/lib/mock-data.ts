@@ -5,8 +5,14 @@ export type PointEquivalence = {
 };
 
 export type SprintResult = {
+	id: string;
 	points: number;
 	days: number;
+};
+
+export type Point = {
+	id: string;
+	value: number;
 };
 
 export const initialEquivalences: PointEquivalence[] = [
@@ -17,22 +23,31 @@ export const initialEquivalences: PointEquivalence[] = [
 	{ id: "eq-13", points: 13, days: 3 },
 ];
 
-export const initialSprintPoints = [1, 5, 6];
+export const initialSprintPoints: Point[] = [
+	{
+		id: crypto.randomUUID(),
+		value: 1,
+	},
+	{
+		id: crypto.randomUUID(),
+		value: 5,
+	},
+];
 
 // TODO: sustituir estos mocks por GET /api/point-equivalences y GET /api/sprints/:id.
 export function calculateSprint(
-	points: number[],
+	points: Point[],
 	equivalences: PointEquivalence[],
 ): SprintResult[] {
 	return points.map((point) => {
 		const exactMatch = equivalences.find(
-			(equivalence) => equivalence.points === point,
+			(equivalence) => equivalence.points === point.value,
 		);
 
 		if (!exactMatch) {
 			throw new Error(`No existe una equivalencia para ${point} puntos.`);
 		}
 
-		return { points: point, days: exactMatch.days };
+		return { id: point.id, points: point.value, days: exactMatch.days };
 	});
 }
