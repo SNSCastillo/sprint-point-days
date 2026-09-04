@@ -16,9 +16,7 @@ export function EquivalencePanel({
 			<PanelHeader
 				title="Escala de equivalencias"
 				description="Tu referencia para estimar esfuerzo."
-			>
-				<Badge>MOCK DATA</Badge>
-			</PanelHeader>
+			></PanelHeader>
 			<div className="table-head">
 				<span>PUNTOS</span>
 				<span>EQUIVALE A</span>

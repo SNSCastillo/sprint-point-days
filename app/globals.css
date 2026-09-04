@@ -88,6 +88,17 @@ input {
 	text-transform: uppercase;
 }
 
+.github-link {
+	display: inline-flex;
+	align-items: center;
+}
+
+.github-link a {
+	display: flex;
+	align-items: center;
+	color: inherit;
+}
+
 .status-dot {
 	display: inline-block;
 	width: 7px;

@@ -1,6 +1,13 @@
 import type { ReactNode } from "react";
+import { SiGithub } from "react-icons/si";
 
-export function AppHeader({ version = "v0.1" }: { version?: string }) {
+export function AppHeader({
+	version = "v0.1",
+	url,
+}: {
+	version?: string;
+	url?: string;
+}) {
 	return (
 		<header className="topbar">
 			<div className="brand">
@@ -12,8 +19,14 @@ export function AppHeader({ version = "v0.1" }: { version?: string }) {
 				</span>
 			</div>
 			<div className="topbar-context">
-				<span className="status-dot" /> Datos locales{" "}
-				<span className="divider" /> {version}
+				<span className="status-dot" />
+				{version}
+				<span className="divider" />
+				<span className="github-link">
+					<a href={url} target="_blank" rel="noopener noreferrer">
+						<SiGithub size={15} />
+					</a>
+				</span>
 			</div>
 		</header>
 	);
