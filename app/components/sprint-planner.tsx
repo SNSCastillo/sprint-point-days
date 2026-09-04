@@ -56,7 +56,7 @@ export default function SprintPlanner() {
 
 	return (
 		<>
-			<AppHeader version={`v${pkg.version}`} />
+			<AppHeader version={`v${pkg.version}`} url={pkg.homepage} />
 			<PageIntro itemCount={sprintPoints.length} />
 			<div className="workspace-grid">
 				<EquivalencePanel
